@@ -93,6 +93,19 @@ class MovieView(Resource):
         if updated_rows != 1:
             return "", 400
 
+        req_json = request.json
+
+        Movie.title = req_json.get("title")
+        Movie.description = req_json.get("description")
+        Movie.trailer = req_json.get("trailer")
+        Movie.year = req_json.get("year")
+        Movie.rating = req_json.get("rating")
+        Movie.genre_id = req_json.get("genre_id")
+        Movie.director_id = req_json.get("director_id")
+
+        db.session.add(Movie)
+        db.session.commit()
+
         return "", 204
 
     def delete(self, uid: int):
@@ -102,7 +115,7 @@ class MovieView(Resource):
         if deleted_rows != 1:
             return "", 400
 
-        db.session.delete()
+        db.session.delete(Movie)
         db.session.commit()
 
         return "", 204
